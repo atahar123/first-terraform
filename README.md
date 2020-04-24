@@ -10,3 +10,9 @@
   - The operating system
   - Data and storage
   - All the packages and exact state of a machine when AMI was created
+
+
+
+terraform plan
+terraform apply
+terraform plan -var 'name=bob' <changes variable
