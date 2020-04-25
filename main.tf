@@ -53,6 +53,7 @@ resource "aws_instance" "app_instance" {
     tags                          = {
         Name                      = var.name
     }
+    key_name                      = "atahar-eng54"
 }
 
 
@@ -66,6 +67,22 @@ resource "aws_security_group" "app_sg" {
     description                   = "Allows port 80"
     from_port                     = 00
     to_port                       = 80
+    protocol                      = "tcp"
+    cidr_blocks                   = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description                   = "Allows port 22"
+    from_port                     = 22
+    to_port                       = 22
+    protocol                      = "tcp"
+    cidr_blocks                   = ["86.140.147.159/32"]
+  }
+
+  ingress {
+    description                   = "Allows port 3000"
+    from_port                     = 3000
+    to_port                       = 3000
     protocol                      = "tcp"
     cidr_blocks                   = ["0.0.0.0/0"]
   }
