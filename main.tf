@@ -42,7 +42,6 @@ data "aws_internet_gateway" "default-gw" {
   }
 }
 
-
 # ===================     Launching an instance   ===================
 resource "aws_instance" "app_instance" {
     ami                           = var.ami_id

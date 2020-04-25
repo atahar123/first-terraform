@@ -7,5 +7,5 @@ variable "name" {
 }
 
 variable "ami_id" {
-  default = "ami-0a76b17e24bb7920a"
+  default = "ami-0cc62896223408942"
 }
