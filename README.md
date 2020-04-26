@@ -20,18 +20,3 @@ terraform plan -var 'name=bob' <changes variable
 
 
 nodejs seeds/seed.js
-
-
-data "template_file" "init" {
-  template = "${file("./templates/init.tpl")}"
-}
-
-#!/bin/bash
-
-cd /home/ubuntu/app
-sudo npm install
-sudo chown -R 1000:1000 "/home/ubuntu/.npm"
-cd seeds
-node seeds.js
-cd ..
-npm start

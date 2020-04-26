@@ -42,19 +42,6 @@ data "aws_internet_gateway" "default-gw" {
   }
 }
 
-# ===================     Launching an instance   ===================
-resource "aws_instance" "app_instance" {
-    ami                           = var.ami_id
-    instance_type                 = "t2.micro"
-    associate_public_ip_address   = true
-    subnet_id                     = aws_subnet.app_subnet.id
-    vpc_security_group_ids        = [aws_security_group.app_sg.id]
-    tags                          = {
-        Name                      = var.name
-    }
-    key_name                      = "atahar-eng54"
-}
-
 
 # ===================     Creating a security group   ===================
 resource "aws_security_group" "app_sg" {
@@ -96,4 +83,31 @@ resource "aws_security_group" "app_sg" {
   tags                            = {
     Name                          = "${var.name}-tags"
   }
+}
+
+
+# ===================     Launching an instance   ===================
+resource "aws_instance" "app_instance" {
+    ami                           = var.ami_id
+    instance_type                 = "t2.micro"
+    associate_public_ip_address   = true
+    subnet_id                     = aws_subnet.app_subnet.id
+    vpc_security_group_ids        = [aws_security_group.app_sg.id]
+    tags                          = {
+        Name                      = var.name
+    }
+    key_name                      = "atahar-eng54"
+
+    provisioner "remote-exec" {
+      inline                      = [
+      "cd /home/ubuntu/app",
+      "npm start",
+    ]
+  }
+    connection {
+      type                         = "ssh"
+      user                         = "ubuntu"
+      host                         = self.public_ip
+      private_key                  = file("~/.ssh/atahar-eng54.pem")
+    }
 }
