@@ -68,7 +68,7 @@ resource "aws_network_acl" "public-nacl" {
 # ===================           Launching a subnet           ===================
 resource "aws_subnet" "app_subnet" {
     vpc_id                        = var.vpc_id
-    cidr_block                    = "10.0.0.0/24"
+    cidr_block                    = "10.0.1.0/24"
     availability_zone             = "eu-west-1a"
     tags                          = {
       Name                        = var.name

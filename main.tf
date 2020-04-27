@@ -34,5 +34,5 @@ module "app" {
   name                            = var.name
   ami_id                          = var.ami_id
   gateway_id                      = aws_internet_gateway.igw.id
-  # gateway_id                      = data.aws_internet_gateway.default-gw.id
+  # gateway_id                    = data.aws_internet_gateway.default-gw.id
 }
