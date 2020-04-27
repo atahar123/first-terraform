@@ -1,10 +1,74 @@
 # App tier
 # Move anything to do with the app tier creation here
 
+# ===================             Creating an NACL           ===================
+resource "aws_network_acl" "public-nacl" {
+  vpc_id = var.vpc_id
+
+  ingress {
+    protocol                      = "tcp"
+    rule_no                       = 100
+    action                        = "allow"
+    cidr_block                    = "0.0.0.0/0"
+    from_port                     = 80
+    to_port                       = 80
+  }
+
+  ingress {
+    protocol                      = "tcp"
+    rule_no                       = 110
+    action                        = "allow"
+    cidr_block                    = "0.0.0.0/0"
+    from_port                     = 443
+    to_port                       = 443
+  }
+
+  ingress {
+    protocol                      = "tcp"
+    rule_no                       = 120
+    action                        = "allow"
+    cidr_block                    = "0.0.0.0/0"
+    from_port                     = 3000
+    to_port                       = 3000
+  }
+
+  ingress {
+    protocol                      = "tcp"
+    rule_no                       = 130
+    action                        = "allow"
+    cidr_block                    = "0.0.0.0/0"
+    from_port                     = 1024
+    to_port                       = 65535
+  }
+
+  ingress {
+    protocol                      = "tcp"
+    rule_no                       = 140
+    action                        = "allow"
+    cidr_block                    = "86.140.147.159/32"
+    from_port                     = 22
+    to_port                       = 22
+  }
+
+  egress {
+    protocol                      = "tcp"
+    rule_no                       = 100
+    action                        = "allow"
+    cidr_block                    = "10.3.0.0/18"
+    from_port                     = 0
+    to_port                       = 0
+  }
+
+  tags                            = {
+    Name                          = "${var.name}-public"
+  }
+}
+
+
 # ===================           Launching a subnet           ===================
 resource "aws_subnet" "app_subnet" {
     vpc_id                        = var.vpc_id
-    cidr_block                    = "172.31.0.0/24"
+    cidr_block                    = "10.0.0.0/24"
     availability_zone             = "eu-west-1a"
     tags                          = {
       Name                        = var.name
@@ -43,7 +107,7 @@ data "template_file" "app_init" {
   }
   # seting ports
   # for the mongodb, setting private_ip for db_host
-    # AWS gives us new IPs - if we want to make one machine aware of another, this could be useful    
+    # AWS gives us new IPs - if we want to make one machine aware of another, this could be useful
 }
 
 
