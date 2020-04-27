@@ -46,7 +46,7 @@ data "aws_internet_gateway" "default-gw" {
 # ===================     Creating a security group   ===================
 resource "aws_security_group" "app_sg" {
   name                            = "atahar_terra_sg"
-  description                     = "Allow inbound traffic to port 80 from anywhere"
+  description                     = "Allow inbound traffic to port 80"
   vpc_id                          = var.vpc_id
 
   ingress {
@@ -86,6 +86,11 @@ resource "aws_security_group" "app_sg" {
 }
 
 
+# ===================     Calling template fle   ===================
+data "template_file" "app_init" {
+  template                        = file("./scripts/app/init.sh.tpl")
+}
+
 # ===================     Launching an instance   ===================
 resource "aws_instance" "app_instance" {
     ami                           = var.ami_id
@@ -97,17 +102,5 @@ resource "aws_instance" "app_instance" {
         Name                      = var.name
     }
     key_name                      = "atahar-eng54"
-
-    provisioner "remote-exec" {
-      inline                      = [
-      "cd /home/ubuntu/app",
-      "npm start",
-    ]
+    user_data                     = data.template_file.app_init.rendered
   }
-    connection {
-      type                         = "ssh"
-      user                         = "ubuntu"
-      host                         = self.public_ip
-      private_key                  = file("~/.ssh/atahar-eng54.pem")
-    }
-}
