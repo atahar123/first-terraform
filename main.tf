@@ -2,6 +2,13 @@ provider "aws" {
 region                            = "eu-west-1"
 }
 
+resource "aws_vpc" "app_vpc" {
+    cidr_block = "10.0.0.0/16"
+    tags = {
+      Name = "${var.name}-vpc"
+    }
+}
+
 # We don't need a new IG
 # We can query our existing VPC/Infrastructure with the 'data' function
 data "aws_internet_gateway" "default-gw" {
