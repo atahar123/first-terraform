@@ -43,8 +43,7 @@ data "template_file" "app_init" {
   }
   # seting ports
   # for the mongodb, setting private_ip for db_host
-    # AWS gives us new IPs - if we want to make one machine aware of another, this could be useful
-    
+    # AWS gives us new IPs - if we want to make one machine aware of another, this could be useful    
 }
 
 

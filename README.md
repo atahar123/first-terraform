@@ -1,6 +1,8 @@
 # Terraform
 
-- Terraform is an Orchestration Tool, that is part of IaaS.
+- Terraform is an Orchestration Tool, that is part of IaC.
+
+- IaC gets sent to IaaS, which reads the IaC and makes the infrastructure.
 
 - Chef and Packer are more on the side of Config Management and create immutable AMI's.
 
