@@ -1,7 +1,7 @@
 # App tier
 # Move anything to do with the app tier creation here
 
-# ===================   Launching a subnet ===================
+# ===================           Launching a subnet           ===================
 resource "aws_subnet" "app_subnet" {
     vpc_id                        = var.vpc_id
     cidr_block                    = "172.31.0.0/24"
@@ -12,7 +12,7 @@ resource "aws_subnet" "app_subnet" {
 }
 
 
-# ===================   Creating a route table   ===============
+# ===================         Creating a route table         ===================
 resource "aws_route_table" "public" {
     vpc_id                        = var.vpc_id
 
@@ -27,20 +27,20 @@ resource "aws_route_table" "public" {
 }
 
 
-# ===================   Creating associations (route)   ===============
+# ===================      Creating associations (route)     ===================
 resource "aws_route_table_association" "assoc" {
     subnet_id                     = aws_subnet.app_subnet.id
     route_table_id                = aws_route_table.public.id
 }
 
 
-# ===================     Calling template fle    ===================
+# ===================         Calling template fle           ===================
 data "template_file" "app_init" {
   template                        = file("./scripts/app/init.sh.tpl")
 }
 
 
-# ===================     Launching an instance   ===================
+# ===================         Launching an instance          ===================
 resource "aws_instance" "app_instance" {
     ami                           = var.ami_id
     instance_type                 = "t2.micro"
@@ -55,7 +55,7 @@ resource "aws_instance" "app_instance" {
   }
 
 
-# ===================     Creating a security group   ===================
+# ===================       Creating a security group        ===================
 resource "aws_security_group" "app_sg" {
   name                            = "atahar_terra_sg"
   description                     = "Allow inbound traffic to port 80"
