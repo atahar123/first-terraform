@@ -37,6 +37,14 @@ resource "aws_route_table_association" "assoc" {
 # ===================         Calling template fle           ===================
 data "template_file" "app_init" {
   template                        = file("./scripts/app/init.sh.tpl")
+  #.tpl is like .erb to allow us to interpolate vars into static templates
+  vars = {
+    my_name = "${var.name} is my name sir"
+  }
+  # seting ports
+  # for the mongodb, setting private_ip for db_host
+    # AWS gives us new IPs - if we want to make one machine aware of another, this could be useful
+    
 }
 
 
