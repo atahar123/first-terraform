@@ -13,3 +13,7 @@ variable "ami_id" {
 variable "gateway_id" {
   description = "Gets the Gateway ID from the main.tf in the main file"
 }
+
+variable "db_ip" {
+  description = "Gets the DB IP from dsfsadf"
+}

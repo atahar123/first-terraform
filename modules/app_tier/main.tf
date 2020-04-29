@@ -4,6 +4,16 @@
 # ===================             Creating an NACL           ===================
 resource "aws_network_acl" "public-nacl" {
   vpc_id = var.vpc_id
+  subnet_ids = [aws_subnet.app_subnet.id]
+
+  egress {
+    protocol                      = -1
+    rule_no                       = 100
+    action                        = "allow"
+    cidr_block                    = "0.0.0.0/0"
+    from_port                     = 0
+    to_port                       = 0
+  }
 
   ingress {
     protocol                      = "tcp"
@@ -36,6 +46,15 @@ resource "aws_network_acl" "public-nacl" {
     protocol                      = "tcp"
     rule_no                       = 130
     action                        = "allow"
+    cidr_block                    = "86.140.147.159/32"
+    from_port                     = 22
+    to_port                       = 22
+  }
+
+  ingress {
+    protocol                      = "tcp"
+    rule_no                       = 140
+    action                        = "allow"
     cidr_block                    = "0.0.0.0/0"
     from_port                     = 1024
     to_port                       = 65535
@@ -43,21 +62,22 @@ resource "aws_network_acl" "public-nacl" {
 
   ingress {
     protocol                      = "tcp"
-    rule_no                       = 140
+    rule_no                       = 150
     action                        = "allow"
-    cidr_block                    = "86.140.147.159/32"
-    from_port                     = 22
-    to_port                       = 22
+    cidr_block                    = "0.0.0.0/0"
+    from_port                     = 27017
+    to_port                       = 27017
   }
 
-  egress {
-    protocol                      = "tcp"
-    rule_no                       = 100
-    action                        = "allow"
-    cidr_block                    = "10.3.0.0/18"
-    from_port                     = 0
-    to_port                       = 0
-  }
+  # ingress {
+  #   protocol                      = "tcp"
+  #   rule_no                       = 140
+  #   action                        = "allow"
+  #   cidr_block                    = "86.140.147.159/32"
+  #   from_port                     = 22
+  #   to_port                       = 22
+  # }
+
 
   tags                            = {
     Name                          = "${var.name}-public"
@@ -104,6 +124,7 @@ data "template_file" "app_init" {
   #.tpl is like .erb to allow us to interpolate vars into static templates
   vars = {
     my_name = "${var.name} is my name sir"
+    db_ip_mine = var.db_ip
   }
   # seting ports
   # for the mongodb, setting private_ip for db_host

@@ -10,6 +10,6 @@ variable "gateway_id" {
   description = "Gets the Gateway ID from the main.tf in the main file"
 }
 
-variable "ami_db_id" {
+variable "ami_id" {
   description = "Gets the DB ID"
 }
